@@ -1,0 +1,22 @@
+{% extends 'partials/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Post Edit Page{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row mt-5 pt-3">
+        <div class="col-md-8 offset-md-2">
+          <div class="card my-3 shadow">
+              <div class="card-body">
+                <form  method="post">
+                  {% csrf_token %}
+                  {{form|crispy}}
+                  <a class="btn btn-secondary btn-sm" href="{% url 'blog-post-detail' post.id %}">Cancle</a>
+                  <input class="btn btn-primary btn-sm" type="submit" name="" value="Save">
+                </form>
+              </div>
+          </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
