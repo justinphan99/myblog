@@ -2,10 +2,27 @@ from django.shortcuts import render, redirect
 from .models import PostModel
 from .forms import PostModelForm, PostUpdateForm, CommentForm
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
+
 # Create your views here.
+
 @login_required
 def index(request):
     posts = PostModel.objects.all()
+    post_paginator = Paginator(posts, 2)
+    page_number = request.GET.get('page')
+    page = post_paginator.get_page(page_number)
+    
+
+    context = {
+        'posts': posts,
+        'page': page,
+    }
+    return render(request, 'blog/index.html', context)
+
+
+@login_required
+def post_create(request):
     if request.method == 'POST':
         form = PostModelForm(request.POST)
         if form.is_valid():
@@ -16,10 +33,10 @@ def index(request):
     else:
         form = PostModelForm()
     context = {
-        'posts': posts,
         'form': form
     }
-    return render(request, 'blog/index.html', context)
+    return render(request, 'blog/post_create.html', context)
+
 
 @login_required
 def post_detail(request, pk):

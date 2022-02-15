@@ -2,7 +2,7 @@ from django import forms
 from .models import PostModel, Comment
 
 class PostModelForm(forms.ModelForm):
-    content = forms.CharField(widget=forms.Textarea(attrs={'rows': 10}))
+    content = forms.CharField(widget=forms.Textarea(attrs={'rows': 15}))
 
     class Meta:
         model = PostModel

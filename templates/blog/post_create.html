@@ -1,0 +1,28 @@
+{% extends 'partials/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Post Create Page{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row mt-5 pt-3">
+        <div class="col-md-10 offset-md-1">
+            <div class="card my-3 shadow">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img class="img-thumbnail" src="{{user.profilemodel.image.url}}" alt="profile-img">
+                        </div>
+                        <div class="col-md-8">
+                            <h3>Write your post here:</h3>
+                            <form  method="post">
+                                {% csrf_token %}
+                                {{ form|crispy }}
+                                <input class="btn btn-primary btn-block" type="submit" name="" value="Post">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

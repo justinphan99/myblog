@@ -1,42 +1,67 @@
 {% extends 'partials/base.html' %}
-{% load crispy_forms_tags %}
 {% block title %}Home Page{% endblock %}
+{% load crispy_forms_tags %}
 {% block content %}
 <div class="container">
     <div class="row mt-5 pt-3">
-        <div class="col-md-4">
-          <div class="card my-3 shadow">
-            <div class="card-body">
-              <h3>form</h3>
-              <form  method="post">
-              {% csrf_token %}
-                {{ form|crispy }}
-                <input class="btn btn-primary btn-block" type="submit" name="" value="Post">
-              </form>
+        <div class="col-md-3">
+            <div class="card my-3 shadow">
+                <div class="card-body">
+                    <h5>Contact to admin:</h4>
+                    <hr>
+                    <h6>Phan Quoc Khoa</h5>
+                    <h6>Email: pqkhoa99@gmail.com</h5>
+                    <hr>
+                    <a class="h3" href="{% url 'blog-post-create' %}">
+                        <input class="btn btn-primary btn-block" type="submit" name="" value="Post A Blog">
+                    </a>
+                </div>
             </div>
-          </div>
         </div>
-        <div class="col-md-8">
-          {% for post in posts %}
-            <div class="card shadow my-3" style="height:300px" >
+        <div class="col-md-9">
+            {% for post in page.object_list %}
+            <div class="card shadow my-3">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <img style="height:250px; width:300px" class="img-thumbnail" src="{{ post.author.profilemodel.image.url }}" alt="img">
                         </div>
-                        <div class="col-md-8">
-                            <small>{{post.date_created}}</small>
+                        <div class="col-md-9">
+                            <small>{{ post.date_created }}</small>
                             <hr>
-                            <a class="h3" href="{% url 'blog-post-detail' post.id %}">{{post.title}}</a>
-                            <p style="overflow: auto; height: 150px; width=200px;" class="text-justify my-3" >
-                              {{post.content}}
+                            <a class="h3" href="{% url 'blog-post-detail' post.id %}">{{ post.title }}</a>
+                            <p style="overflow: auto; height: 150px; width=200px;" class="text-justify my-3">
+                                {{ post.content }}
                             </p>
                         </div>
                     </div>
                 </div>
-              </div>
+            </div>
             {% endfor %}
-         </div>
+        </div>
     </div>
 </div>
+{% comment %} <div class="page-links">
+    {% if page.has_previous %}
+        <a href="">Previous Page</a>
+    {% endif %}
+    {% if page.has_next %}
+        <a href="">Next Page</a>
+    {% endif %}
+</div> {% endcomment %}
+<div>
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        {% if page.has_previous %}
+        <li class="page-item"><a class="page-link" 
+            href="{% url 'blog-index' %}?page={{ page.previous_page_number}}">Previous</a></li>
+        {% endif %}
+        {% if page.has_next %}
+        <li class="page-item"><a class="page-link" 
+            href="{% url 'blog-index' %}?page={{ page.next_page_number}}">Next</a></li>
+        {% endif %}
+    </ul>
+</nav>
+</div>
+
 {% endblock %}
